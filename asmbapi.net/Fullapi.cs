@@ -68,6 +68,10 @@ namespace asmbapi.net
             var xx=    client.Get("tests", entries);
             
         }
+        public static ARpcClient FindApiService(byte[] addr)
+        {
+            return FindSliceApiService(ATypes.ATypes.Addone(addr));
+        }
         public static ARpcClient FindSliceApiService(byte[] slice )
         {
             try
