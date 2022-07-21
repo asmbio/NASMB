@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.1.0" />
+    <PackageReference Include="Nethereum.Signer" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NASMB\NASMB.csproj" />
+    <ProjectReference Include="..\NASMB.TYPES\NASMB.TYPES.csproj" />
     <ProjectReference Include="..\NASMB.Utils\NASMB.Utils.csproj" />
   </ItemGroup>
 
