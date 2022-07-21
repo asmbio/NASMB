@@ -10,7 +10,7 @@ using Nethereum.JsonRpc.Client;
 using Nethereum.JsonRpc.Client.RpcMessages;
 using Newtonsoft.Json;
 
-namespace asmbapi.net
+namespace NASMB
 {
 
 

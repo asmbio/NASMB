@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace asmbapi.net
+namespace NASMB
 {
     //	Init(ctx context.Context, typ crypto.SigType) (address.Address, error)                       //perm:admin
     //  New(ctx context.Context, typ crypto.SigType) (address.Address, error)                        //perm:admin

@@ -5,67 +5,68 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace asmbapi.net
+namespace NASMB
 {
     public class AESEncrypt
     {
         #region ===========加密============
-        ///// <summary>
-        ///// 加密
-        ///// </summary>
-        ///// <param name="Text"></param>
-        ///// <returns></returns>
-        //public static string Encrypt(string Text)
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="Text"></param>
+        /// <returns></returns>
+        //public static []values Encrypt(string Text)
         //{
         //    return Encrypt(Text, "meig");
         //}
 
-        ///// <summary> 
-        ///// 加密数据 
-        ///// </summary> 
-        ///// <param name="Text"></param> 
-        ///// <param name="sKey"></param> 
-        ///// <returns></returns> 
-        //public static string Encrypt(string plainText, string sKey)
-        //{
-        //    // Check arguments.
-        //    if (plainText == null || plainText.Length <= 0)
-        //        throw new ArgumentNullException("plainText");
-        //    if (sKey == null || sKey.Length <= 0)
-        //        throw new ArgumentNullException("Key");
-           
-        //    // Create an AesCryptoServiceProvider object
-        //    // with the specified key and IV.
-        //    using (AesCryptoServiceProvider aesAlg = new AesCryptoServiceProvider())
-        //    {
-        //        aesAlg.Key = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 16));
-        //        aesAlg.IV = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 16)); 
+        /// <summary> 
+        /// 加密数据 
+        /// </summary> 
+        /// <param name="Text"></param> 
+        /// <param name="sKey"></param> 
+        /// <returns></returns> 
+        public static byte[] Encrypt(string plainText, string sKey)
+        {
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+                throw new ArgumentNullException("plainText");
+            if (sKey == null || sKey.Length <= 0)
+                throw new ArgumentNullException("Key");
 
+            // Create an AesCryptoServiceProvider object
+            // with the specified key and IV.
+            using (AesCryptoServiceProvider aesAlg = new AesCryptoServiceProvider())
+            {
+                aesAlg.Key = System.Text.Encoding.ASCII.GetBytes(sKey);
+                aesAlg.IV = System.Text.Encoding.ASCII.GetBytes(sKey.Substring(0, 16));
 
-        //        // Create a decrytor to perform the stream transform.
-        //        ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+                // Create a decrytor to perform the stream transform.
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
-        //        // Create the streams used for encryption.
-        //        using (MemoryStream msEncrypt = new MemoryStream())
-        //        {
-        //            using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-        //            {
-        //                using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-        //                {
-        //                    //Write all data to the stream.
-        //                    swEncrypt.Write(plainText);
-        //                }
-        //                StringBuilder ret = new StringBuilder();
-        //                foreach (byte b in  msEncrypt.ToArray())
-        //                {
-        //                    ret.AppendFormat("{0:X2}", b);
-        //                }
-        //                // Return the encrypted string from the memory stream.
-        //                return ret.ToString();
-        //            }
-        //        }
-        //    }
-        //}
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
+                        }
+                        StringBuilder ret = new StringBuilder();
+
+                        return msEncrypt.ToArray();
+                        //foreach (byte b in msEncrypt.ToArray())
+                        //{
+                        //    ret.AppendFormat("{0:X2}", b);
+                        //}
+                        //// Return the encrypted string from the memory stream.
+                        //return ret.ToString();
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -107,7 +108,7 @@ namespace asmbapi.net
                 //aesAlg.Key = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 16));
                 //aesAlg.IV = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 16)); 
                 aesAlg.Key =System.Text.Encoding.ASCII.GetBytes(sKey);
-             // aesAlg.IV = System.Text.Encoding.ASCII.GetBytes(cipherText.Substring(0,16)); 
+                aesAlg.IV = System.Text.Encoding.ASCII.GetBytes(sKey.Substring(0,16)); 
                 // Create a decrytor to perform the stream transform.
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
@@ -122,7 +123,7 @@ namespace asmbapi.net
                             // Read the decrypted userData from the decrypting stream
                             // and place them in a string.
                             char[]  chs = new char[16];
-                            srDecrypt.Read(chs, 0, 16);
+                         //   srDecrypt.Read(chs, 0, 16);
                             plaintext = srDecrypt.ReadToEnd();
                         }
                     }

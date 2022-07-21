@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace asmbapi.net
+namespace NASMB
 {
 
 	public class FullapilistConfig

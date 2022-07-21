@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace asmbapi.net.ATypes
+namespace NASMB.TYPES
 {
     public class ATypes
     {
-
-
         // 补位后+1
         public static byte[] Addone(byte[] str)
         {

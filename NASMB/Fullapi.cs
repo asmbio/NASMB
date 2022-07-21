@@ -1,4 +1,4 @@
-﻿using asmbapi.net.ATypes;
+﻿using NASMB.TYPES;
 using dotnet_etcd;
 
 using Etcdserverpb;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace asmbapi.net
+namespace NASMB
 {
     public class Fullapi
     {
@@ -59,7 +59,7 @@ namespace asmbapi.net
         }
         public static void test3()
         {
-            var ex = new asmbapi.net.ATypes.ExchangeChainInfoMessage() { From = AConst.MinSlice, Slice = AConst.MaxSlice };
+            var ex = new NASMB.TYPES.ExchangeChainInfoMessage() { From = AConst.MinSlice, Slice = AConst.MaxSlice };
 
             var jsonex = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
 
@@ -70,7 +70,7 @@ namespace asmbapi.net
         }
         public static ARpcClient FindApiService(byte[] addr)
         {
-            return FindSliceApiService(ATypes.ATypes.Addone(addr));
+            return FindSliceApiService(TYPES.ATypes.Addone(addr));
         }
         public static ARpcClient FindSliceApiService(byte[] slice )
         {
@@ -103,7 +103,7 @@ namespace asmbapi.net
                         
                         var ex = Newtonsoft.Json.JsonConvert.DeserializeObject<ExchangeChainInfoMessage>(item.Value.ToString(Encoding.Default));
 
-                         AuthenticationHeaderValue DefaultauthenticationHeaderValue = new AuthenticationHeaderValue("Bearer", AESEncrypt.Decrypt(ex.Token, AConfig.FullapilistConfig.MinersliceAeskey));
+                         AuthenticationHeaderValue DefaultauthenticationHeaderValue = new AuthenticationHeaderValue("Bearer", Utils. AESEncrypt.Decrypt(ex.Token, System.Text.Encoding.Default.GetBytes( AConfig.FullapilistConfig.MinersliceAeskey)));
                         
                         ARpcClient aRpcClient = new ARpcClient(ex.Url, "asmb_" + Base58.Bitcoin.Encode(ex.Slice),DefaultauthenticationHeaderValue);
                         return aRpcClient;

@@ -1,9 +1,9 @@
-﻿using Google.Protobuf;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace asmbapi.net.ATypes
+namespace NASMB.TYPES
 {
     public class ExchangeChainInfoMessage
     {

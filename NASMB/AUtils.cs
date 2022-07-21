@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace asmbapi.net
+namespace NASMB
 {
     public class AUtils
     {

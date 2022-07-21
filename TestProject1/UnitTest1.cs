@@ -1,9 +1,11 @@
-using asmbapi.net;
+using NASMB;
+using NASMB.TYPES;
 using Google.Protobuf;
 using SimpleBase;
 using StreamJsonRpc;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
+using Org.BouncyCastle.Utilities;
 
 namespace TestProject1
 {
@@ -13,6 +15,19 @@ namespace TestProject1
         [TestMethod]
         public void TestMethod1()
         {
+            Konscious.Security.Cryptography.HMACBlake2B blke2b = new Konscious.Security.Cryptography.HMACBlake2B(160);
+
+          
+
+            byte[] arr1 = { 93, 5, 3, 55, 57 };
+            byte[] arr2 = { 93, 5, 3, 55, 57 };
+
+            var ret1 = blke2b.ComputeHash(arr1);
+            var ret2 = blke2b.ComputeHash(arr2);
+            // ==±È½Ï
+            Assert.IsFalse( (arr1 == arr2));
+            // equals
+            Assert.IsTrue( arr1.SequenceEqual(arr2));
 
 
             test1();
@@ -175,7 +190,7 @@ namespace TestProject1
 
         [TestMethod]
         public void TestMethod5() {
-            //var ex =new asmbapi.net.ATypes.ExchangeChainInfoMessage() { From = AConst.MinSlice,Slice= AConst.MaxSlice};
+            //var ex =new NASMB.ATypes.ExchangeChainInfoMessage() { From = AConst.MinSlice,Slice= AConst.MaxSlice};
 
             //var jsonex=Newtonsoft.Json.JsonConvert.SerializeObject(ex);
 
@@ -186,7 +201,7 @@ namespace TestProject1
         [TestMethod]
         public void TestMethod6()
         {
-            //var ex =new asmbapi.net.ATypes.ExchangeChainInfoMessage() { From = AConst.MinSlice,Slice= AConst.MaxSlice};
+            //var ex =new NASMB.ATypes.ExchangeChainInfoMessage() { From = AConst.MinSlice,Slice= AConst.MaxSlice};
 
             //var jsonex=Newtonsoft.Json.JsonConvert.SerializeObject(ex);
            
