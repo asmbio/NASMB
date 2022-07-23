@@ -21,10 +21,24 @@ namespace NASMB.Wallet
     public class Wallet
     {
         private string _pwd;
+
+        public string Pwd
+        {
+            set
+            {
+                _pwd = value;
+            }
+        }
+
+        public bool Vdpwd(string pwd)
+        {
+            return _pwd == pwd;
+        }
         private string _wname;
         public Keys Keys;
         public Wallet(string path,string pwd)
         {
+            
             _pwd = pwd;
         //    var md5pwd = ;
            // _pwd =System.Text.Encoding.Default.GetBytes(  Convert.ToHexString(md5pwd).Substring(0,32));

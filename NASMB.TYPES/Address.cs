@@ -6,13 +6,34 @@ using System.Threading.Tasks;
 
 namespace NASMB.TYPES
 {
-    public class Address
+    public class AsmbAddress
     {
-         byte[] _address;
-
-        public string String()
+        byte[] __address;
+        internal byte[] _Address
         {
-            return SimpleBase.Base58.Bitcoin.Encode(_address);
+            get
+            {
+                return __address;
+            }
+            set
+            {
+                if (__address != value)
+                {
+                    __address = value;
+                    address = SimpleBase.Base58.Bitcoin.Encode(__address);
+                }
+            }
+        }
+        string address;
+
+        public string Address
+        {
+            set
+            {
+                address = value;
+                __address = SimpleBase.Base58.Bitcoin.Decode(address).ToArray();
+            }
+            get { return address; }
         }
     }
 }

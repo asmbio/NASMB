@@ -12,13 +12,13 @@ namespace NASMB
 
 		public string MinersliceNet = "mountain";//旷工分片网络集合名称
 
-		//	public string Endpoints = "asmb.site:2379,asmb.site:2379";
+		//	public string Endpoints = "asmb.site:2379";
 
 		public string Endpoints =  "http://127.0.0.1:2379" ;//etcd url
 
-		public string Username = "root"; // etcd username
+		public string Username = "reader"; // etcd username
 
-		public string Password = "mountainfa"; // etcd password
+		public string Password = "test123456"; // etcd password
 	}
 	public class AConfig
 	{
