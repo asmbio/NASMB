@@ -16,15 +16,18 @@ namespace NASMB.TYPES
         // Uint64  Timestamp();
         //   Slice(t Msgtype) [] byte
     }
-    public struct Messagebs
+    public class Messagebs
     {
 
-        public byte Msgtype;
-        public int len;
-        public byte[] raw;
-        public byte[] shakey;
+        public Msgtype Msgtype;
+        internal int len;
+        internal byte[] raw;
+        internal byte[] shakey;
         public Itrans Body;    // 可以是cid ,也可以是body(signmsg)
                                //	Hash   []byte // 确认区块hash
                                //	St   byte
     }
+
+
+
 }

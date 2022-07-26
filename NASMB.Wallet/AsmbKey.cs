@@ -46,7 +46,7 @@ namespace NASMB.Wallet
             {
                  Konscious.Security.Cryptography.HMACBlake2B blke2b = new Konscious.Security.Cryptography.HMACBlake2B(160);
                 
-                _address =  blke2b.ComputeHash(this.GetPubKeyNoPrefix());
+                _address =  blke2b.ComputeHash(this.GetPubKey());
             }
             return _address;
         }

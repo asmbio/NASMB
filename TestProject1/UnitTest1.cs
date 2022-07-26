@@ -13,6 +13,17 @@ namespace TestProject1
     public class UnitTest1
     {
         [TestMethod]
+        public void TestMethodaddr()
+        {
+            Transmsg transmsg = new Transmsg();
+            transmsg.From.SetAddressByte(AConst.MaxSlice); //transmsg.To.SetAddressByte(AConst.MinSlice);
+            transmsg.Marks = "ddd";
+            var jsons = Newtonsoft.Json.JsonConvert.SerializeObject(transmsg);
+
+            var t2= Newtonsoft.Json.JsonConvert.DeserializeObject<Transmsg>(jsons);
+
+        }
+            [TestMethod]
         public void TestMethod1()
         {
             Konscious.Security.Cryptography.HMACBlake2B blke2b = new Konscious.Security.Cryptography.HMACBlake2B(160);

@@ -70,7 +70,7 @@ namespace NASMB.Wallet
             //key.KeyInfo = new KeyInfo() ;
             key.asmbKey = asmbKey;
             key.PublicKey = asmbKey.GetPubKey();
-            key._Address = asmbKey.GetAsmbAddress();
+            key.Address.SetAddressByte(asmbKey.GetAsmbAddress()) ;
             //var en =   asmbKey.Sign( AConst.MinSlice);
             //asmbKey.Verify()
             //en.To64ByteArray();
@@ -83,7 +83,7 @@ namespace NASMB.Wallet
 
             store();
             
-            return key._Address;
+            return key.Address.GetAddressbyte();
         }
 
         protected void store() {
@@ -95,7 +95,7 @@ namespace NASMB.Wallet
         }
         public byte[][] List() {
             //
-            return Keys.Keylist.Select(p => p._Address).ToArray();            
+            return Keys.Keylist.Select(p => p.Address.GetAddressbyte()).ToArray();            
         }
 
         public bool Import(string hex,string pwd) {
@@ -125,7 +125,7 @@ namespace NASMB.Wallet
 
          public void Setdefault(byte[] address)
         {
-            var dkey = Keys.Keylist.FirstOrDefault(p => p._Address.SequenceEqual(address));
+            var dkey = Keys.Keylist.FirstOrDefault(p => p.Address.GetAddressbyte().SequenceEqual(address));
             if (dkey != null)
             {
                 Keys.Defaultkey = dkey;
@@ -136,14 +136,14 @@ namespace NASMB.Wallet
         {
             if (address == null)
             {
-                address = Keys.Defaultkey._Address;
+                address = Keys.Defaultkey.Address.GetAddressbyte();
             }
-            var a = Keys.Keylist.FirstOrDefault(p =>  p._Address.SequenceEqual( address));
+            var a = Keys.Keylist.FirstOrDefault(p =>  p.Address.GetAddressbyte().SequenceEqual( address));
             if (a == null)
             {
                 throw new Exception($"没有秘钥{address}");
             }
-            Konscious.Security.Cryptography.HMACBlake2B blke2b = new Konscious.Security.Cryptography.HMACBlake2B(160);
+            Konscious.Security.Cryptography.HMACBlake2B blke2b = new Konscious.Security.Cryptography.HMACBlake2B(256);
 
         
             var sig= a.asmbKey.SignAndCalculateV(blke2b.ComputeHash(msg));

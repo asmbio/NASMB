@@ -37,32 +37,37 @@ namespace NASMB.Wallet
             }
         
         }
-        byte[] __address;
-       internal byte[] _Address
-        {
-            get
-            {
-                return __address;
-            }
-            set
-            {
-                if(__address != value)
-                {
-                    __address = value;
-                    address = SimpleBase.Base58.Bitcoin.Encode(__address);
-                }
-            }
-        }
-        string address;
+        //byte[] __address;
+        //internal byte[] _Address
+        //{
+        //    get
+        //    {
+        //        return __address;
+        //    }
+        //    set
+        //    {
+        //        if (__address != value)
+        //        {
+        //            __address = value;
+        //            address = SimpleBase.Base58.Bitcoin.Encode(__address);
+        //        }
+        //    }
+        //}
 
-        public string Address
-        {
-            set { 
-                address = value;
-                __address = SimpleBase.Base58.Bitcoin.Decode(address).ToArray();
-            }
-            get { return address; }           
-        }
+        //public byte[] GetAddressByte()
+        //{
+        //    return _Address;
+        //}
+        //string address;
+
+        public TYPES.AsmbAddress Address;
+        //{
+        //    set { 
+        //        address = value;
+        //        __address = SimpleBase.Base58.Bitcoin.Decode(address).ToArray();
+        //    }
+        //    get { return address; }           
+        //}
     }
 
 
