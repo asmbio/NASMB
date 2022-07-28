@@ -15,6 +15,14 @@ namespace TestProject1
         [TestMethod]
         public void TestMethodaddr()
         {
+            //16589957075026955
+            //1658995128316445
+            //1658995128316
+            //1658995128316445400
+            //1658995128 1658995128316445 1658995128316 1658995128316445400
+
+            var ltime = System.DateTime.Now.ToUniversalTime().Ticks;
+            var unixt = ltime - 621355968000000000;
             Transmsg transmsg = new Transmsg();
             transmsg.From.SetAddressByte(AConst.MaxSlice); //transmsg.To.SetAddressByte(AConst.MinSlice);
             transmsg.Marks = "ddd";

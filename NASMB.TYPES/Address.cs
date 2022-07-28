@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace NASMB.TYPES
             }
             else
             {
-                writer.WriteRawValue(value.ToString());
+                writer.WriteRawValue($"\"{value.ToString()}\"");
             }
    
         //    writer.WriteEnd();
@@ -45,6 +46,7 @@ namespace NASMB.TYPES
         //{
         //    SetAddressByte(bytes);
         //}
+        //public AsmbAddress() { }
         //public AsmbAddress(string addr)
         //{
         //    Address = addr;
@@ -80,8 +82,8 @@ namespace NASMB.TYPES
         }
         public override string ToString()
         {
-          //  return address;
-            return $"\"{address}\"";
+            return address;
+           // return ;
         }
         //public byte[] RlpEncode() {
 

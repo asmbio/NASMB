@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+using Org.BouncyCastle.Ocsp;
+using System.Runtime.Intrinsics.X86;
+using System.Drawing;
 
 namespace NASMB
 {
@@ -68,6 +71,82 @@ namespace NASMB
             var xx=    client.Get("tests", entries);
             
         }
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="from"> 从小到大</param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static AsmbAddress[] GetSliceList(byte[] from, int n)
+        {
+            if (from == null)
+            {
+                from = AConst.MinSlice;
+            }
+
+            var shareslice = AConst.ASMB_ETCD_SHAREDB_SLICEMG.Concat(from).ToArray();
+            RangeRequest rangeRequest = new RangeRequest();
+            rangeRequest.Key = ByteString.CopyFrom(shareslice);
+            rangeRequest.RangeEnd = ByteString.CopyFrom(AConst.ASMB_ETCD_SHAREDB_SLICEMG_END);
+            rangeRequest.Limit = n * AConfig.SliceMgBackupCount;
+            var rp = client.Get(rangeRequest, entries);
+            var rets = new List<AsmbAddress>();
+
+            if (rp.Kvs.Count == 0)
+            {
+                return rets.ToArray();
+            }
+            foreach (var item in rp.Kvs)
+            {
+           
+                    var s = item.Key.Skip(13).Take(20);
+
+                    //    ASMB_ETCD_SHAREDB_SLICEMG
+                    //ret:= k.Key[:bytes.LastIndex(k.Key, []byte("/"))]
+
+                    if (from.SequenceEqual(s))
+                    {
+                        continue;
+
+                    }
+                    var add = new AsmbAddress();
+                    add.SetAddressByte(s.ToArray());
+                    rets.Add(add);
+
+                    from = add.GetAddressbyte();
+
+                    n--;
+
+                    if (n == 0 || add.GetAddressbyte().SequenceEqual(AConst.MaxSlice))
+                    {
+                        return rets.ToArray();
+
+                    }
+                    //item.Value.
+                    //var jsonstring = item.Value.ToArray();
+                    //var jstring = Convert.FromBase64String(item.Value.ToString(Encoding.UTF8));
+
+                    //ExchangeChainInfoMessage
+
+
+                    //     var ex = Newtonsoft.Json.JsonConvert.DeserializeObject<ExchangeChainInfoMessage>(item.Value.ToString(Encoding.Default));
+
+
+            
+            }
+            if (rets.Count > 0)
+            {
+                var rets2 = GetSliceList(from, n);
+
+                if (rets2.Length == 0)
+                {
+                    return rets.ToArray();
+                }
+                rets.AddRange(rets2);
+
+            }
+            return rets.ToArray();
+        }
         public static ARpcClient FindApiService(byte[] addr)
         {
             return FindSliceApiService(TYPES.ATypes.Addone(addr));
@@ -92,8 +171,7 @@ namespace NASMB
 
                 foreach (var item in rp.Kvs)
                 {
-                    try
-                    {
+                   
                         //item.Value.
                         //var jsonstring = item.Value.ToArray();
                         //var jstring = Convert.FromBase64String(item.Value.ToString(Encoding.UTF8));
@@ -107,12 +185,7 @@ namespace NASMB
                         
                         ARpcClient aRpcClient = new ARpcClient(ex.Url, "asmb_" + Base58.Bitcoin.Encode(ex.Slice),DefaultauthenticationHeaderValue);
                         return aRpcClient;
-                    }
-                    catch (Exception)
-                    {
-                        return null;
-
-                    }
+              
 
 
                 }
