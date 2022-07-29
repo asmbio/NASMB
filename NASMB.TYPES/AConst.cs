@@ -12,8 +12,8 @@ namespace NASMB
 
     public class AConst
     {
-        public const string ASMB_ID = "0";// 本地测试链0, 测试链1，主链2
-        public const int Chainid = 0;//区块链id 与上面相同 类型不同
+        public const string ASMB_ID = "1";// 本地测试链0, 测试链1，主链2
+        public const int Chainid = 1;//区块链id 与上面相同 类型不同
         public const string ASMB_ETCD_START = "asmb/" + ASMB_ID;                         //  值 ==1 可以start 值 不等于1 ，等待==1 时start
         public static byte[] ASMB_ETCD_SHAREDB_SLICEMG = System.Text.Encoding.Default.GetBytes( "asmb/" + ASMB_ID + "/slice/");   // 分片管理,%s:slice/nodeid,value = exinfo
         public static byte[] ASMB_ETCD_SHAREDB_SLICEMG_END = System.Text.Encoding.Default.GetBytes("asmb/" + ASMB_ID + "/slice~");// 分片管理,%s:slice+nodeid,value = exinfo
