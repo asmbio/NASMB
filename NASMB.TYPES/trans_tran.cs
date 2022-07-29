@@ -21,10 +21,15 @@ namespace NASMB.TYPES
         
         public BigInteger Balance;
         public UInt64 Feesrate;
-        public string Marks ="";
+        public string Marks ;
         public UInt64 Time;
 
-        public byte[] RlpEncode() {
+        public byte[] RlpEncode()
+        {
+            if (Marks == null)
+            {
+                Marks = "";
+            }
             //var mbytes =Marks.ToBytesForRLPEncoding();
             return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
                 RLP.EncodeByte((byte)Msgtype),

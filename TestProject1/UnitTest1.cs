@@ -150,7 +150,7 @@ namespace TestProject1
         {
             for (int i = 0; i < 10; i++)
             {
-                var test1 = Fullapi.testc();
+                //var test1 = Fullapi.testc();
                 Thread.Sleep(1000);
 
                 //var test2 = Fullapi.testc();
@@ -213,7 +213,7 @@ namespace TestProject1
 
             //var jsonex=Newtonsoft.Json.JsonConvert.SerializeObject(ex);
 
-            Fullapi.test3();
+         //   Fullapi.test3();
 
         }
 

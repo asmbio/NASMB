@@ -19,9 +19,9 @@ namespace NASMB
     {
        static EtcdClient client;
 
-        static AuthenticateResponse authRes;
-
-        static  Grpc.Core.Metadata entries;
+       // static AuthenticateResponse authRes;
+       
+    //    static  Grpc.Core.Metadata entries;
         static Fullapi()
         {
 
@@ -29,13 +29,14 @@ namespace NASMB
             //// E.g.
             //EtcdClient etcdClient = new EtcdClient("https://localhost:23790,https://localhost:23791,https://localhost:23792");
             client = new EtcdClient(AConfig.FullapilistConfig.Endpoints);
-            authRes = client.Authenticate(new Etcdserverpb.AuthenticateRequest()
+           var authRes = client.Authenticate(new Etcdserverpb.AuthenticateRequest()
             {
                 Name = AConfig.FullapilistConfig.Username,
                 Password = AConfig.FullapilistConfig.Password,
             });
+          //  client.LeaseKeepAlive
             //  Put key "foo/bar" with value "barfoo" with authenticated token
-            entries = new Grpc.Core.Metadata() { new Grpc.Core.Metadata.Entry("token", authRes.Token) };
+          //  entries = new Grpc.Core.Metadata() { new Grpc.Core.Metadata.Entry("token", authRes.Token) };
             //client.Put("foo/bar", "barfoo", new Grpc.Core.Metadata() {
             //    new Grpc.Core.Metadata.Entry("token",authRes.Token)
             //});
@@ -52,25 +53,25 @@ namespace NASMB
 
             //client.GetAll("key",)           
         }
-        public static string testc()
-        {
-            return authRes.Token;
-        }
-        public static Grpc.Core.Metadata test2()
-        {
-            return entries;
-        }
-        public static void test3()
-        {
-            var ex = new NASMB.TYPES.ExchangeChainInfoMessage() { From = AConst.MinSlice, Slice = AConst.MaxSlice };
+        //public static string testc()
+        //{
+        //    return authRes.Token;
+        //}
+        //public static Grpc.Core.Metadata test2()
+        //{
+        //    return entries;
+        //}
+        //public static void test3()
+        //{
+        //    var ex = new NASMB.TYPES.ExchangeChainInfoMessage() { From = AConst.MinSlice, Slice = AConst.MaxSlice };
 
-            var jsonex = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
+        //    var jsonex = Newtonsoft.Json.JsonConvert.SerializeObject(ex);
 
-            client.Put("tests", jsonex, entries);
+        //    client.Put("tests", jsonex, entries);
 
-            var xx=    client.Get("tests", entries);
+        //    var xx=    client.Get("tests", entries);
             
-        }
+        //}
         /// <summary>
         /// /
         /// </summary>
@@ -89,7 +90,12 @@ namespace NASMB
             rangeRequest.Key = ByteString.CopyFrom(shareslice);
             rangeRequest.RangeEnd = ByteString.CopyFrom(AConst.ASMB_ETCD_SHAREDB_SLICEMG_END);
             rangeRequest.Limit = n * AConfig.SliceMgBackupCount;
-            var rp = client.Get(rangeRequest, entries);
+            var authRes = client.Authenticate(new Etcdserverpb.AuthenticateRequest()
+            {
+                Name = AConfig.FullapilistConfig.Username,
+                Password = AConfig.FullapilistConfig.Password,
+            });
+            var rp = client.Get(rangeRequest, new Grpc.Core.Metadata() { new Grpc.Core.Metadata.Entry("token", authRes.Token) });
             var rets = new List<AsmbAddress>();
 
             if (rp.Kvs.Count == 0)
@@ -163,7 +169,12 @@ namespace NASMB
                 rangeRequest.Key = ByteString.CopyFrom(shareslice);
                 rangeRequest.RangeEnd = ByteString.CopyFrom(AConst.ASMB_ETCD_SHAREDB_SLICEMG_END);
                 rangeRequest.Limit = AConfig.SliceMgBackupCount;
-                var rp=  client.Get(rangeRequest,entries);
+                var authRes = client.Authenticate(new Etcdserverpb.AuthenticateRequest()
+                {
+                    Name = AConfig.FullapilistConfig.Username,
+                    Password = AConfig.FullapilistConfig.Password,
+                });
+                var rp=  client.Get(rangeRequest, new Grpc.Core.Metadata() { new Grpc.Core.Metadata.Entry("token", authRes.Token) });
 
 
                 //var rp = client.Range(ByteString.CopyFrom( ByteString.CopyFrom( AConst.ASMB_ETCD_SHAREDB_SLICEMG).Concat(slice).ToArray()), ByteString.CopyFrom(AConst.ASMB_ETCD_SHAREDB_SLICEMG_END), limit: AConfig.SliceMgBackupCount);
