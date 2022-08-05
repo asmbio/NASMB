@@ -19,8 +19,8 @@ namespace NASMB.TYPES
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-                  var ret =new AsmbAddress();
-            ret.Address = (string)reader.Value;
+            var ret =new AsmbAddress((string)reader.Value);
+            //ret.Address = ;
             return ret;
         }
 
@@ -39,18 +39,18 @@ namespace NASMB.TYPES
         }
     }
     [JsonConverter(typeof(AddrConverter))]
-    public struct AsmbAddress
+    public class AsmbAddress
     {
 
-        //public AsmbAddress(byte[] bytes)
-        //{
-        //    SetAddressByte(bytes);
-        //}
+        public AsmbAddress(byte[] bytes)
+        {
+            SetAddressByte(bytes);
+        }
         //public AsmbAddress() { }
-        //public AsmbAddress(string addr)
-        //{
-        //    Address = addr;
-        //}
+        public AsmbAddress(string addr)
+        {
+            Address = addr;
+        }
         byte[] __address;
         public byte[] GetAddressbyte()
         {                   
@@ -70,15 +70,25 @@ namespace NASMB.TYPES
 
         public string Address
         {
+            get => address;
             set
             {
+
                 address = value;
                 __address = SimpleBase.Base58.Bitcoin.Decode(address).ToArray();
-            }
-            get
+            }         
+            
+        }
+
+        public void SetAddress(string bytes)
+        {
+
+            if (address != bytes)
             {
-                return address;
+                address = bytes;
+                __address = SimpleBase.Base58.Bitcoin.Decode(address).ToArray();
             }
+
         }
         public override string ToString()
         {

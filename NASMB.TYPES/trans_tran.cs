@@ -17,12 +17,31 @@ namespace NASMB.TYPES
 
         public Msgtype Msgtype = Msgtype.SignTrans; // models.Trans
 
-        public AsmbAddress From, To;
-        
-        public BigInteger Balance;
-        public UInt64 Feesrate;
-        public string Marks ;
-        public UInt64 Time;
+   
+        public AsmbAddress From
+        {
+            get; set;
+        }
+        public AsmbAddress To
+        {
+            get; set;
+        }
+        public BigInteger Balance
+        {
+            get; set;
+        }
+        public UInt64 Feesrate
+        {
+            get; set;
+        }
+        public string Marks
+        {
+            get; set;
+        }
+        public UInt64 Time
+        {
+            get; set;
+        }
 
         public byte[] RlpEncode()
         {
@@ -57,7 +76,7 @@ namespace NASMB.TYPES
     public class SignTransmsg:Itrans
     {
 
-        public Transmsg Transmsg;
+        public Transmsg Transmsg { get; set; }
         public byte[] Sign;
 
         public BigInteger Balance()

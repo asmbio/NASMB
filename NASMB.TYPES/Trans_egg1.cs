@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nethereum.RLP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -11,12 +12,31 @@ namespace NASMB.TYPES
     public class Egg1msg
     {
 
-        public Msgtype Msgtype;// models.Trans
+        public Msgtype Msgtype = Msgtype.SignEgg1;// models.Trans
 
         public AsmbAddress From;
 
         public byte[] Randomcode;
         public UInt64 Time;
+
+
+        public byte[] RlpEncode()
+        {
+            //if (Marks == null)
+            //{
+            //    Marks = "";
+            //}
+            //var mbytes =Marks.ToBytesForRLPEncoding();
+            return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
+                RLP.EncodeByte((byte)Msgtype),
+
+                From.GetAddressbyte(),
+                Randomcode,
+                
+                ConvertorForRLPEncodingExtensions.ToBytesFromNumber(BitConverter.GetBytes( Time)),
+            });
+
+        }
     }
     public class SignEgg1msg:Itrans
     {
@@ -26,7 +46,7 @@ namespace NASMB.TYPES
 
         public BigInteger Balance()
         {
-            return BigInteger.Zero;
+            return Maons.ToNil("1 Maons");
         }
 
         public AsmbAddress Slice(Msgtype t)
@@ -51,6 +71,14 @@ namespace NASMB.TYPES
         public ulong Time()
         {
             return Egg1msg.Time;
+        }
+        public byte[] RlpEncode()
+        {
+
+            return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
+                Egg1msg.RlpEncode(),
+                Sign,
+            });
         }
     }
 }

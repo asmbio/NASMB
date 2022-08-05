@@ -115,8 +115,8 @@ namespace NASMB
                         continue;
 
                     }
-                    var add = new AsmbAddress();
-                    add.SetAddressByte(s.ToArray());
+                    var add = new AsmbAddress(s.ToArray());
+                  //  add.SetAddressByte();
                     rets.Add(add);
 
                     from = add.GetAddressbyte();

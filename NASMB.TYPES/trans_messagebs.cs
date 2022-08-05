@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JsonSubTypes;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 
 namespace NASMB.TYPES
 {
@@ -22,15 +23,18 @@ namespace NASMB.TYPES
         System.Numerics.BigInteger Balance();
         System.Numerics.BigInteger Rate();
         AsmbAddress Slice(Msgtype msgtype);
-        //ConstantExpression
-        // Transmsg Transmsg { get; set; }  
-        //	vdmsg(c *Chain, ct *StateManager, cmsglen int, rcpkey []byte) (*StateAccount, *big.Int, error)
-        //   VdRequest(c* Chain, msgfrom* pubsub.Message,  Messagebs msgbs) error
-        //   Vdtrans(c* Chain, nblk* BlockHeader, msg Messagebs, ct* StateManager, blksize* uint32, coinbase* big.Int) ([]byte, error)
-        //Rate() uint64
-        // Uint64  Timestamp();
-        //   Slice(t Msgtype) [] byte
-    }
+
+        byte[] RlpEncode();        
+
+            //ConstantExpression
+            // Transmsg Transmsg { get; set; }  
+            //	vdmsg(c *Chain, ct *StateManager, cmsglen int, rcpkey []byte) (*StateAccount, *big.Int, error)
+            //   VdRequest(c* Chain, msgfrom* pubsub.Message,  Messagebs msgbs) error
+            //   Vdtrans(c* Chain, nblk* BlockHeader, msg Messagebs, ct* StateManager, blksize* uint32, coinbase* big.Int) ([]byte, error)
+            //Rate() uint64
+            // Uint64  Timestamp();
+            //   Slice(t Msgtype) [] byte
+        }
     public class Messagebs
     {
 
@@ -39,7 +43,7 @@ namespace NASMB.TYPES
         internal byte[] raw;
         internal byte[] shakey;
 
-        public Itrans Body;    // 可以是cid ,也可以是body(signmsg)
+        public Itrans Body { get; set; }    // 可以是cid ,也可以是body(signmsg)
                                //	Hash   []byte // 确认区块hash
                                //	St   byte
 
@@ -57,7 +61,7 @@ namespace NASMB.TYPES
                     case Msgtype.JionPD:
                         break;
                     case Msgtype.SysCoinbase:
-                        return "奖励";
+                        return "出块奖励";
                     case Msgtype.SignTrans:
                         return "输出";
                     case Msgtype.CfmTrans:
@@ -109,9 +113,9 @@ namespace NASMB.TYPES
                     case Msgtype.Addcharges:
                         break;
                     case Msgtype.SignEgg1:
-                        return "抽奖";
+                        return "彩蛋1";
                     case Msgtype.CfmEgg1:
-                        return "奖励";
+                        return "彩蛋1";
                     default:
 
                         break;
@@ -122,13 +126,14 @@ namespace NASMB.TYPES
 
         }
         [JsonIgnore]
-        public DateTime Time { get { return new DateTime((long)Body.Time()/100+ 621355968000000000); } }
+        public DateTime Time { get { return new DateTime((long)Body.Time()/100+ 621355968000000000, DateTimeKind.Utc).ToLocalTime(); } }
         [JsonIgnore]
         public string Balance
         {
             get
             {
                 string prex = "+ ";
+                string blance = Maons.FromNil(Body.Balance());
                 switch (Msgtype)
                 {
                     case Msgtype.Unknown:
@@ -138,6 +143,7 @@ namespace NASMB.TYPES
                     case Msgtype.JionPD:
                         break;
                     case Msgtype.SysCoinbase:
+                        blance = "1... Maons";
                         break;
                     case Msgtype.SignTrans:
                         prex = "- ";
@@ -191,13 +197,15 @@ namespace NASMB.TYPES
                     case Msgtype.Addcharges:
                         break;
                     case Msgtype.SignEgg1:
+                        blance = "0 Maons";
                         break;
                     case Msgtype.CfmEgg1:
+                        blance = "1 Maons";
                         break;
                     default:
                         break;
                 }
-                return prex + Nihil.FromNil(Body.Balance());
+                return prex + blance;
             }
         }
         [JsonIgnore]
@@ -207,10 +215,33 @@ namespace NASMB.TYPES
         {
             get
             {
-                return Nihil.FromNil(Body.Rate());
+                return Maons.FromNil(Body.Rate());
             }
         }
-    
+
+        [JsonIgnore]
+        public string AllRate
+        {
+            get
+            {
+                return Maons.FromNil(  Body.Rate()*( Body.RlpEncode().Length-2)*2);
+            }
+        }
+
+        [JsonIgnore]
+        public string Shakey
+        {
+            get
+            {
+                if (shakey==null)
+                {
+                    shakey = SHA1.HashData(Body.RlpEncode());
+
+                }
+              
+                return Convert.ToHexString(shakey);
+            }
+        }
     }
 
     public class PolyConverter : JsonConverter

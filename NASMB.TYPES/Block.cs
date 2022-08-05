@@ -47,7 +47,9 @@ namespace NASMB.TYPES
     // slice == maxslice 存 producer 排名
     public class BlockHeader
     {
-
+        //public BlockHeader() {
+        //    Miner = new AsmbAddress();
+        //}
         public UInt64 Height { get; set; }        // identical for all blocks in same tipset
         public AsmbAddress Miner { get; set; }// unique per block/miner
         public byte[] Parent;        //parent trieindex  hash 高度+分片 作为key的区块树，左右两个都放进去
@@ -72,7 +74,7 @@ namespace NASMB.TYPES
         public byte[] Sign;
 
         [JsonIgnore]
-        public DateTime Time { get { return new DateTime((long)Bh.Timestamp/100+ 621355968000000000); } }
+        public DateTime Time { get { return new DateTime((long)Bh.Timestamp/100+ 621355968000000000,DateTimeKind.Utc).ToLocalTime(); } }
      
         //[JsonIgnore]
         //public AsmbAddress Slice { get { return Body.Slice(Msgtype); } }
@@ -81,7 +83,7 @@ namespace NASMB.TYPES
         {
             get
             {
-                return Nihil.FromNil(Bh.Coinbase);
+                return Maons.FromNil(Bh.Coinbase);
             }
         }
     }

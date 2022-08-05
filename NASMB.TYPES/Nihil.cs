@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NASMB.TYPES
 {
-    public class Nihil
+    public class Maons
     {
 
         public static BigInteger ToNil(string strb)
@@ -36,13 +36,13 @@ namespace NASMB.TYPES
                 case "Gnil":
                     bigDecimalFromUnit = new BigDecimal(1000_000_000, 0);
                     break;
-                case "MicroNihil":
+                case "MicroMaons":
                     bigDecimalFromUnit = new BigDecimal(1000_000_000_000, 0);
                     break;
-                case "MilliNihil":
+                case "MilliMaons":
                     bigDecimalFromUnit = new BigDecimal(1000_000_000_000_000, 0);
                     break;
-                case "Nihil":
+                case "Maons":
                     bigDecimalFromUnit = new BigDecimal(1000_000_000_000_000_000, 0);
                     break;
                 default:
@@ -54,7 +54,7 @@ namespace NASMB.TYPES
             return conversion.Floor().Mantissa;
         }
         
-        public static string FromNil(BigInteger blance, string unit = "Nihil")
+        public static string FromNil(BigInteger blance, string unit = "Maons")
         {
             switch (unit)
             {
@@ -67,24 +67,24 @@ namespace NASMB.TYPES
                 case "Gnil":
                     return ((decimal)new BigDecimal(blance, (9 * -1))).ToString() + " Gnil";
 
-                case "MicroNihil":
-                    return ((decimal)new BigDecimal(blance, (12 * -1))).ToString() + " MicroNihil";
+                case "MicroMaons":
+                    return ((decimal)new BigDecimal(blance, (12 * -1))).ToString() + " MicroMaons";
 
-                case "MilliNihil":
-                    return ((decimal)new BigDecimal(blance, (15 * -1))).ToString() + " MilliNihil";
+                case "MilliMaons":
+                    return ((decimal)new BigDecimal(blance, (15 * -1))).ToString() + " MilliMaons";
 
-                case "Nihil":
-                    return ((decimal)new BigDecimal(blance, (18 * -1))).ToString() + " Nihil";
+                case "Maons":
+                    return ((decimal)new BigDecimal(blance, (18 * -1))).ToString() + " Maons";
 
                 default:
-                    return ((decimal)new BigDecimal(blance, (18 * -1))).ToString() + " Nihil";
+                    return ((decimal)new BigDecimal(blance, (18 * -1))).ToString() + " Maons";
 
             }
 
         }
 
 
-        public static decimal FromNildecimal(BigInteger blance, string unit = "Nihil")
+        public static decimal FromNildecimal(BigInteger blance, string unit = "Maons")
         {
             switch (unit)
             {
@@ -97,13 +97,13 @@ namespace NASMB.TYPES
                 case "Gnil":
                     return ((decimal)new BigDecimal(blance, (9 * -1)));
 
-                case "MicroNihil":
+                case "MicroMaons":
                     return ((decimal)new BigDecimal(blance, (12 * -1)));
 
-                case "MilliNihil":
+                case "MilliMaons":
                     return ((decimal)new BigDecimal(blance, (15 * -1)));
 
-                case "Nihil":
+                case "Maons":
                     return ((decimal)new BigDecimal(blance, (18 * -1)));
 
                 default:

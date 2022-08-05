@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NASMB.GO\NASMB.GO.csproj" />
     <ProjectReference Include="..\NASMB\NASMB.csproj" />
     <ProjectReference Include="..\NASMB.Wallet\NASMB.Wallet.csproj" />
   </ItemGroup>

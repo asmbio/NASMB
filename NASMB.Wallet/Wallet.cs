@@ -98,28 +98,21 @@ namespace NASMB.Wallet
             return Keys.Keylist.Select(p => p.Address.GetAddressbyte()).ToArray();            
         }
 
-        public bool Import(string hex,string pwd) {
-            try
-            {
-                var hbyte = Convert.FromHexString(hex);
+        public bool Import(string hex, string pwd)
+        {
 
-                var kw = NASMB.Utils.AESEncrypt.Decrypt(hbyte, System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.Default.GetBytes(pwd)));
+            var hbyte = Convert.FromHexString(hex);
 
-                var keks  = Newtonsoft.Json.JsonConvert.DeserializeObject<Keys>(kw);
-                Keys.Keylist = Keys.Keylist.Concat(keks.Keylist).ToArray();
-                //foreach (var item in keks.Keylist)
-                //{
-                //    keks.Keylist = Keys.Keylist.Append(item).ToArray();
-                //}
-                store();
+            var kw = NASMB.Utils.AESEncrypt.Decrypt(hbyte, System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.Default.GetBytes(pwd)));
 
-            }
-            catch (Exception)
-            {
+            var keks = Newtonsoft.Json.JsonConvert.DeserializeObject<Keys>(kw);
+            Keys.Keylist = Keys.Keylist.Concat(keks.Keylist).ToArray();
+            //foreach (var item in keks.Keylist)
+            //{
+            //    keks.Keylist = Keys.Keylist.Append(item).ToArray();
+            //}
+            store();
 
-                 return false;
-            }
-           
             return true;
         }
 

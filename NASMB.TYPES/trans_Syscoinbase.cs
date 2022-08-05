@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nethereum.RLP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -19,6 +20,22 @@ namespace NASMB.TYPES
         public AsmbAddress Miner;   // 生产者 ，奖励目标 ; 消息发送slice
         public UInt64 Feesrate;        // 费率(生产者给的费率)
         public UInt64 Time;
+        public byte[] RlpEncode()
+        {
+        
+            //var mbytes =Marks.ToBytesForRLPEncoding();
+            return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
+                RLP.EncodeByte((byte)Msgtype),
+
+              //  From.GetAddressbyte(),
+              //  To.GetAddressbyte() ,
+              //  Balance.ToBytesForRLPEncoding(),
+              //ConvertorForRLPEncodingExtensions.ToBytesFromNumber(BitConverter.GetBytes( Feesrate)),
+              //Marks.ToBytesForRLPEncoding(),
+                ConvertorForRLPEncodingExtensions.ToBytesFromNumber(BitConverter.GetBytes( Time)),
+            });
+
+        }
     }
     public class SignSysCoinbasemsg:Itrans
     {
@@ -45,6 +62,14 @@ namespace NASMB.TYPES
         public ulong Time()
         {
             return SysCoinbasemsg.Time;
+        }
+        public byte[] RlpEncode()
+        {
+
+            return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
+                SysCoinbasemsg.RlpEncode(),
+                Sign,
+            });
         }
     }
 
