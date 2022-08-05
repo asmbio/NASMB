@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NASMB.TYPES;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,7 +61,7 @@ namespace NASMB.Wallet
         //}
         //string address;
 
-        public TYPES.AsmbAddress Address;
+        public AsmbAddress Address;
         //{
         //    set { 
         //        address = value;
