@@ -20,14 +20,14 @@ namespace TestProject1
         {
             var str = RuntimeInformation.OSArchitecture;
 
-            var s2 = Environment.OSVersion.Platform;
+            //var s2 = Environment.OSVersion.Platform;
 
-            RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            byte[] chars = new byte[32];
-            var time= NASMB.GO.Egg1.EnEgg1Code( chars, 32);
+            //RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            //byte[] chars = new byte[32];
+            //var time= NASMB.GO.Egg1.EnEgg1Code( chars, 32);
 
-            byte[] dcode = new byte[20];
-            var ret =NASMB.GO.Egg1.DeEgg1Code(chars, 32, time, dcode, 20);
+            //byte[] dcode = new byte[20];
+            //var ret =NASMB.GO.Egg1.DeEgg1Code(chars, 32, time, dcode, 20);
 
             Console.ReadKey();
         }

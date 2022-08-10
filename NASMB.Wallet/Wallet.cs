@@ -70,7 +70,7 @@ namespace NASMB.Wallet
             //key.KeyInfo = new KeyInfo() ;
             key.asmbKey = asmbKey;
             key.PublicKey = asmbKey.GetPubKey();
-            key.Address.SetAddressByte(asmbKey.GetAsmbAddress()) ;
+            key.Address = new AsmbAddress(asmbKey.GetAsmbAddress()) ;
             //var en =   asmbKey.Sign( AConst.MinSlice);
             //asmbKey.Verify()
             //en.To64ByteArray();

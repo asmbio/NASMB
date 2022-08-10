@@ -37,7 +37,7 @@ namespace TestProject1
                 signEgg1Msg.Egg1msg.From.SetAddressByte(wallet.Keys.Defaultkey.Address.GetAddressbyte());
 
                 signEgg1Msg.Egg1msg.Randomcode = new byte[32];
-                signEgg1Msg.Egg1msg.Time = NASMB.GO.Egg1.EnEgg1Code(signEgg1Msg.Egg1msg.Randomcode, 32);
+               //signEgg1Msg.Egg1msg.Time = NASMB.GO.Egg1.EnEgg1Code(signEgg1Msg.Egg1msg.Randomcode, 32);
              
 
                 var rlpb = signEgg1Msg.Egg1msg.RlpEncode();
