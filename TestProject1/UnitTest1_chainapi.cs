@@ -32,13 +32,17 @@ namespace TestProject1
 
                 // 3o4JqgXdLogoVE2rnXCbkCDbXf9n
                 // var add = SimpleBase.Base58.Bitcoin.Decode("22xGFn6hd76h5nkA5uFt5pXKDfcb").ToArray();
+               
+                var aRpcClient = Fullapi.FindSliceApiService(wallet.Keys.Defaultkey.Address.GetAddressbyte());
+                //signEgg1Msg.Egg1msg.Time = NASMB.GO.Egg1.EnEgg1Code(signEgg1Msg.Egg1msg.Randomcode, 32);
+                var sEgg1Msg = await aRpcClient.SendRequestAsync<Egg1msg>("EnEgg1Code", null);
 
-                SignEgg1msg signEgg1Msg = new SignEgg1msg() { Egg1msg = new Egg1msg() };
-                signEgg1Msg.Egg1msg.From.SetAddressByte(wallet.Keys.Defaultkey.Address.GetAddressbyte());
+                sEgg1Msg.From = wallet.Keys.Defaultkey.Address;
+                SignEgg1msg signEgg1Msg = new SignEgg1msg() { };
+                signEgg1Msg.Egg1msg = sEgg1Msg;
 
-                signEgg1Msg.Egg1msg.Randomcode = new byte[32];
-               //signEgg1Msg.Egg1msg.Time = NASMB.GO.Egg1.EnEgg1Code(signEgg1Msg.Egg1msg.Randomcode, 32);
-             
+                //signEgg1Msg.Egg1msg.Randomcode = new byte[32];
+     
 
                 var rlpb = signEgg1Msg.Egg1msg.RlpEncode();
                 //var rlphex = Convert.ToHexString(rlpb);
@@ -51,7 +55,7 @@ namespace TestProject1
                 var msg = Newtonsoft.Json.JsonConvert.SerializeObject(messagebs);
 
 
-                var aRpcClient = Fullapi.FindSliceApiService(signEgg1Msg.Egg1msg.From.GetAddressbyte());
+               
                 var ret = await aRpcClient.SendRequestAsync<object>("Pubmsg", null, messagebs);
 
 
