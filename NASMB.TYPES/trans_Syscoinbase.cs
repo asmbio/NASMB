@@ -66,9 +66,9 @@ namespace NASMB.TYPES
         public byte[] RlpEncode()
         {
 
-            return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
+            return RLP.EncodeList(new byte[][] {
                 SysCoinbasemsg.RlpEncode(),
-                Sign,
+                RLP.EncodeElement(Sign),
             });
         }
     }

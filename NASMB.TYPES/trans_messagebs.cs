@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using JsonSubTypes;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
+using System.Net;
 
 namespace NASMB.TYPES
 {
@@ -17,6 +18,10 @@ namespace NASMB.TYPES
     [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignTransmsg), "Transmsg")]
     [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignSysCoinbasemsg), "SysCoinbasemsg")]
     [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignEgg1msg), "Egg1msg")]
+    [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignWorkscommentmsgEx), "SignWorkscommentmsg")]
+    [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignWorksmsgEx), "SignWorksmsg")]
+    [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignWorksmsg), "Worksmsg")]    
+    [JsonSubTypes.JsonSubtypes.KnownSubTypeWithProperty(typeof(SignWorkscommentmsg), "Workscommentmsg")]
     public interface Itrans
     {
         UInt64 Time();
@@ -42,7 +47,22 @@ namespace NASMB.TYPES
         internal int len;
         internal byte[] raw;
         internal byte[] shakey;
+        [JsonIgnore]
+        public byte[] _Shakey { 
+            get
+            {
+                if (shakey == null)
+                {
+                    var _shakey = SHA1.HashData(Body.RlpEncode());
 
+                    var tsss = BitConverter.GetBytes(Body.Time());
+                    var tiss = tsss.Reverse();
+                    shakey = tiss.Concat(_shakey).ToArray();
+                }
+                return shakey;
+            } 
+        
+        }
         public Itrans Body { get; set; }    // 可以是cid ,也可以是body(signmsg)
                                //	Hash   []byte // 确认区块hash
                                //	St   byte
@@ -52,7 +72,7 @@ namespace NASMB.TYPES
         {
             get
             {
-                switch (Msgtype)
+                switch (Msgtype)        
                 {
                     case Msgtype.Unknown:
                         break;
@@ -116,8 +136,31 @@ namespace NASMB.TYPES
                         return "彩蛋1";
                     case Msgtype.CfmEgg1:
                         return "彩蛋1";
-                    default:
+                    case Msgtype.SignInvitee:
+                        break;
+                    case Msgtype.SignWorks:
+                        return "内容";
+                    case Msgtype.ChanSignWorks:
+                        return "内容";
+                    case Msgtype.SWorkscomment:                        
+                    case Msgtype.CfmSWorkscomment:
 
+                        switch ((Body as SignWorkscommentmsgEx).SignWorkscommentmsg.Workscommentmsg.Tag){
+                            case 1:
+                                return "赞";
+                            case 2:
+                                return "踩";
+                            case 3:
+                                return "分享";
+                            case 4:
+                                return "评论";
+                            case 5:
+                                return "取消";
+                            default:
+                                break;
+                        }
+                        return "评价";
+                    default:
                         break;
                 }
                 return Msgtype.ToString();
@@ -224,7 +267,7 @@ namespace NASMB.TYPES
         {
             get
             {
-                return Maons.FromNil(  Body.Rate()*( Body.RlpEncode().Length-2)*2);
+                return Maons.FromNil(  Body.Rate()*( Body.RlpEncode().Length)*2);
             }
         }
 
@@ -233,12 +276,14 @@ namespace NASMB.TYPES
         {
             get
             {
-                if (shakey==null)
+                if (shakey == null)
                 {
-                    shakey = SHA1.HashData(Body.RlpEncode());
+                    var _shakey = SHA1.HashData(Body.RlpEncode());
 
+                    var tsss = BitConverter.GetBytes(Body.Time());
+                    var tiss = tsss.Reverse();
+                    shakey = tiss.Concat(_shakey).ToArray();
                 }
-              
                 return Convert.ToHexString(shakey);
             }
         }

@@ -183,6 +183,50 @@ namespace TestProject1
 
             //   Newtonsoft.Json.JsonConvert.DeserializeObject<NASMB.TYPES.StateAccount>(System.Text.Encoding.Default.GetString(ret));
         }
+
+        async void testpubmsggetreps()
+        {
+            try
+            {
+                NASMB.Wallet.Wallet wallet = new NASMB.Wallet.Wallet("mywallet", "123456");
+
+                // var add = wallet.Sign(null, System.Text.Encoding.Default.GetBytes("123456"));
+
+                // 3o4JqgXdLogoVE2rnXCbkCDbXf9n
+                // var add = SimpleBase.Base58.Bitcoin.Decode("22xGFn6hd76h5nkA5uFt5pXKDfcb").ToArray();
+
+                SignTransmsg signTransmsg = new SignTransmsg() { Transmsg = new Transmsg() };
+                signTransmsg.Transmsg.From.SetAddressByte(wallet.Keys.Defaultkey.Address.GetAddressbyte());
+                signTransmsg.Transmsg.To.SetAddress("3o4JqgXdLogoVE2rnXCbkCDbXf9n");
+                signTransmsg.Transmsg.Feesrate = 1000_000_000_000_000;
+                signTransmsg.Transmsg.Balance = NASMB.TYPES.Maons.ToNil("1 Maons");
+                //637944439095943909 1658994971263519600
+                signTransmsg.Transmsg.Time = 637944439095943909;
+                //signTransmsg.Transmsg.Time =(UInt64) System.DateTime.Now.Ticks;
+
+                var rlpb = signTransmsg.Transmsg.RlpEncode();
+                var rlphex = Convert.ToHexString(rlpb);
+                signTransmsg.Sign = wallet.Sign(signTransmsg.Transmsg.From.GetAddressbyte(), rlpb);
+
+                Messagebs messagebs = new Messagebs();
+                messagebs.Body = signTransmsg;
+                messagebs.Msgtype = signTransmsg.Transmsg.Msgtype;
+
+                var msg = Newtonsoft.Json.JsonConvert.SerializeObject(messagebs);
+
+
+                var aRpcClient = Fullapi.FindSliceApiService(signTransmsg.Transmsg.From.GetAddressbyte());
+                var ret = await aRpcClient.SendRequestAsync<object>("Pubmsg", null, messagebs);
+
+                // Console.Write(ret);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
+
+            //   Newtonsoft.Json.JsonConvert.DeserializeObject<NASMB.TYPES.StateAccount>(System.Text.Encoding.Default.GetString(ret));
+        }
         //AskNil(ctx context.Context, addr types.Address) error
     }
 }

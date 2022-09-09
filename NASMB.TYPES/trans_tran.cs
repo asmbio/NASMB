@@ -90,9 +90,9 @@ namespace NASMB.TYPES
 
         public byte[] RlpEncode() {
 
-            return RLP.EncodeDataItemsAsElementOrListAndCombineAsList(new byte[][] {
+            return RLP.EncodeList(new byte[][] {
                 Transmsg.RlpEncode(),
-                Sign,
+                RLP.EncodeElement(Sign),
             });
         }
 

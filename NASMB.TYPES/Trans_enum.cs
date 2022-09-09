@@ -78,5 +78,15 @@ namespace NASMB.TYPES
         SignEgg1, // 彩蛋1
 
         CfmEgg1, // 确认彩蛋
+
+        SignInvitee = 31,// 邀请
+
+        SignWorks = 32,// 发布作品
+
+        ChanSignWorks = 33,// 发布作品到频道
+
+        SWorkscomment = 34,// 作品评论，分享，点赞
+
+        CfmSWorkscomment = 35,// 作品评论，分享，点赞
     }
 }

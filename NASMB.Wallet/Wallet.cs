@@ -106,11 +106,17 @@ namespace NASMB.Wallet
             var kw = NASMB.Utils.AESEncrypt.Decrypt(hbyte, System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.Default.GetBytes(pwd)));
 
             var keks = Newtonsoft.Json.JsonConvert.DeserializeObject<Keys>(kw);
-            Keys.Keylist = Keys.Keylist.Concat(keks.Keylist).ToArray();
-            //foreach (var item in keks.Keylist)
-            //{
-            //    keks.Keylist = Keys.Keylist.Append(item).ToArray();
-            //}
+          //  Keys.Keylist = Keys.Keylist.Concat(keks.Keylist).ToArray();
+            foreach (var item in keks.Keylist)
+            {
+                if (Keys.Keylist.FirstOrDefault(p => p.Address.GetAddressbyte().SequenceEqual(item.Address.GetAddressbyte())) == null){
+                 Keys.Keylist =   Keys.Keylist.Append(item).ToArray();
+                }              
+            }
+            if (Keys.Defaultkey == null)
+            {
+                Keys.Defaultkey = keks.Keylist[0];
+            }
             store();
 
             return true;
