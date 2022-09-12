@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace NASMB.TYPES
 {
     public class ATypes
     {
+        public static byte[] GettrieIndex(UInt64 time, byte[] key)
+        {
+            var tsss = BitConverter.GetBytes((UInt64)time);
+            var tiss = tsss.Reverse();
+            return tiss.Concat(key).ToArray();
+        }
+    
         // 补位后+1
         public static byte[] Addone(byte[] str)
         {

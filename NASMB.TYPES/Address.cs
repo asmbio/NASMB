@@ -95,6 +95,9 @@ namespace NASMB.TYPES
             return address;
            // return ;
         }
+
+     
+          
         //public byte[] RlpEncode() {
 
         //    return Nethereum.RLP.RLP.EncodeElement(__address);
