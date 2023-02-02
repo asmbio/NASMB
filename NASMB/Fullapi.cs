@@ -153,11 +153,11 @@ namespace NASMB
             }
             return rets.ToArray();
         }
-        public static ARpcClient FindApiService(byte[] addr)
+        internal static ARpcClient FindApiService(byte[] addr)
         {
             return FindSliceApiService(TYPES.ATypes.Addone(addr));
         }
-        public static ARpcClient FindSliceApiService(byte[] slice )
+        internal static ARpcClient FindSliceApiService(byte[] slice )
         {
             try
             {

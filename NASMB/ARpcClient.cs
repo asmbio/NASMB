@@ -42,15 +42,15 @@ namespace NASMB
             var baseUrl = new Uri($"{url}/{_name}/v0");
          
             //  Uri baseuri = new Uri()
-            if (authHeaderValue == null)
-            {
-                authHeaderValue = DefaultauthenticationHeaderValue;
-            }
+            //if (authHeaderValue == null)
+            //{
+            //    authHeaderValue = DefaultauthenticationHeaderValue;
+            //}
             _baseUrl = baseUrl;
 
             //if (authHeaderValue == null)
             //{
-            //    authHeaderValue = BasicAuthenticationHeaderHelper.GetBasicAuthenticationHeaderValueFromUri(baseUrl);
+          //    authHeaderValue = BasicAuthenticationHeaderHelper.GetBasicAuthenticationHeaderValueFromUri(baseUrl);
             //}
 
             _authHeaderValue = authHeaderValue;
